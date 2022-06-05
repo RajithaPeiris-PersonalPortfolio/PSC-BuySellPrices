@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>PSC: Update Paddy Selling Prices</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="wrapper">
+
+    <div class="content-wrapper">
+      <div class="row pt-5">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title" style="margin-bottom: 0!important;">Update Paddy Selling Prices</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form th:action="@{/perchase/{id} (id=${perchase.id})}"  th:object="${perchaseDto}" method="POST">
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Paddy Type</label>
+                  <select class="form-control" id="paddyType" name="paddyType" th:field="*{paddyType}">
+                    <option
+                            th:data-price-id="${paddyType.prices[0].id}"
+                            th:data="${paddyType.prices[0].sellingPrice}"
+                            th:each="paddyType : ${paddyTypes}"
+                            th:value="${{paddyType.id}}"
+                            th:text="${paddyType.name} + ' (Rs ' + ${paddyType.prices[0].sellingPrice}  + ')'"
+                    > option 1</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label> Selling Price of the Paddy Type (Rs)</label>
+                  <input class="form-control"
+                         type="text"
+                         name="selling"
+                         id="sellingPrice"
+                         placeholder="Update Selling Price (Rs)">
+                </div>
+                <div class="form-group">
+                  <label> Date</label>
+                  <input class="form-control"
+                         type="text"
+                         name="date"
+                         id="sellingDate"
+                         placeholder="Update The Date">
+                </div>
+                <div class="form-group">
+                  <label> Store </label>
+                  <select class="form-control" name="store" th:field="*{store}">
+                    <option th:each="store : ${stores}" th:value="${store.id}"  th:text="${store.address}"> option 1</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label> PSC Decisions</label>
+                  <input class="form-control"
+                         type="text"
+                         name="decisions"
+                         id="pscDecisions"
+                         placeholder="Update PSC Decisions">
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Update Selling Price</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title" style="margin-bottom: 0!important;">Paddy Prices</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                  <th>
+                    Paddy Type
+                  </th>
+                  <th>
+                    Buying Price
+                  </th>
+                  <th>
+                    Selling Price
+                  </th>
+                </thead>
+                <tbody>
+                <tr th:each="paddyType : ${paddyTypes}">
+                  <td th:text="${paddyType.name}">...</td>
+                  <td th:text="'Rs '+${paddyType.prices[0].buyingPrice}">...</td>
+                  <td th:text="'Rs '+${paddyType.prices[0].sellingPrice}">...</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
